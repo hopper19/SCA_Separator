@@ -1,6 +1,9 @@
 # Summary Comparative Analysis Separator
 
-Possible options:
-1. One PDF for each instructor containing all their course reports. (default)
-2. One directory/zipped file per instructor containing all individual course report PDFs inside.
-3. (think about this) Sorting by department/college.
+Usage instructions:
+1. Click on the latest release on the right side of the GitHub page.
+2. Download the .exe executable file.
+3. Ensure that your input files are in the same directory as the downloaded executable.
+4. Run the executable file.
+5. Follow the on-screen prompts
+6. The results will be generated in the same directory as the executable.
