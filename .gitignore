@@ -1,2 +1,5 @@
 *.lis
 *.pdf
+*.spec
+/build
+/dist

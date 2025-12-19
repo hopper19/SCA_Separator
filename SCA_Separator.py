@@ -2,11 +2,33 @@ import re
 from collections import defaultdict
 from pathlib import Path
 import shutil
+import sys
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.pdfgen import canvas
 
+# List all .lis files in the current directory
+current_dir = Path.cwd()
+lis_files = list(current_dir.glob("*.lis"))
 
-INPUT_FILE = "SCA_Fall2025.lis"
+if not lis_files:
+    print("No .lis files found in folder. Please place the .lis source data file in the same folder as the program and try again.")
+    sys.exit()
+
+print("Available .lis data files:")
+for i, file in enumerate(lis_files, start=1):
+    print(f"{i}. {file.name}")
+
+while True:
+    try:
+        choice = int(input("Enter the number of the file to process: ").strip())
+        if 1 <= choice <= len(lis_files):
+            INPUT_FILE = str(lis_files[choice - 1])
+            break
+        else:
+            print(f"Please enter a number between 1 and {len(lis_files)}.")
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+
 OUTPUT_DIR = Path(INPUT_FILE.rsplit(".", 1)[0] + "_byInstructor")
 # delete the output dir if it exists
 if OUTPUT_DIR.exists():
@@ -19,7 +41,7 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 # Match instructor line on a page
 INSTRUCTOR_REGEX = re.compile(r"Instructor:\s*([^;]+);")
 
-PAGE_HEIGHT, PAGE_WIDTH  = letter
+PAGE_HEIGHT, PAGE_WIDTH = letter
 LEFT_MARGIN = 72
 TOP_MARGIN = 72
 LINE_HEIGHT = 8
@@ -55,7 +77,7 @@ for instructor, pages in sections.items():
             c.showPage()
             c.setFont(FONT_NAME, FONT_SIZE)
         first_page = False
-        
+
         y = PAGE_HEIGHT - TOP_MARGIN
 
         for line in page.splitlines():
